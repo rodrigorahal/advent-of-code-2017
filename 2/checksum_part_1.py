@@ -15,10 +15,10 @@ def checksum(spreasheet):
     return sum(diffs)
 
 def main():
-    with open('corruption_checksum_test_case.txt', 'r') as spreasheet:
+    with open('part_1_test_case.txt', 'r') as spreasheet:
         assert checksum(spreasheet) == 18
 
-    with open('corruption_checksum.txt', 'r') as spreasheet:
+    with open('input.txt', 'r') as spreasheet:
         print("Answer: ", checksum(spreasheet))
 
 if __name__ == '__main__':
