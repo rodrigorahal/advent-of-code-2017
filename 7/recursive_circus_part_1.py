@@ -1,45 +1,52 @@
+import random
 
-def add_child_parent_relationships(row, child_parent):
+def add_nodes_reverse_edges_weights(row, nodes, edges, weights, graph):
     info = row.split()
 
-    # no childs
     if len(info) == 2:
-        return
+        name, weight = info
+        nodes.add(name)
+        weights[name] = int(weight.strip('()'))
 
     else:
         parent = info[0]
+        weight = info[1]
+        nodes.add(parent)
+        weights[parent] = int(weight.strip('()'))
+
         children = ["".join(c.split(",")) for c in info[3:]]
 
         for child in children:
-            child_parent[child] = parent
+            nodes.add(child)
+            edges.add((child, parent))
+            graph[child] = parent
 
-def make_graph(towers):
-    child_parent = dict()
+def make_reversed_graph(towers):
+    nodes = set()
+    edges = set()
+    weights = dict()
+    reversed_graph = dict()
 
     for row in towers:
-        add_child_parent_relationships(row, child_parent)
+        add_nodes_reverse_edges_weights(row, nodes, edges, weights, reversed_graph)
 
-    return child_parent
+    return nodes, edges, weights, reversed_graph
 
-def find_root(child_parent, init_id=0):
-    """
-    Choose a random node in the graph and traverse backwards until we
-    find the root node
-    """
-    root = list(child_parent.values())[init_id]
+def find_root(nodes, edges, weights, graph):
+    root = random.choice(list(nodes))
 
     while True:
         try:
-            root = child_parent[root]
+            root = graph[root]
         except KeyError:
             return root
 
 def main():
     with open('part_1_test_case.txt', 'r') as towers:
-        assert find_root(make_graph(towers)) == 'tknk'
+        assert find_root(*make_reversed_graph(towers)) == 'tknk'
 
     with open('input.txt', 'r') as towers:
-        print("Answer: ", find_root(make_graph(towers)))
+        print("Answer: ", find_root(*make_reversed_graph(towers)))
 
 if __name__ == '__main__':
     main()
