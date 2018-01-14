@@ -28,9 +28,12 @@ def navigate(grid, start):
     path = []
     i, j, direction = start
 
+    steps = 0
     while direction != 'end':
         i, j, direction = next_pos(grid, (i, j), direction, path)
+        steps += 1
 
+    print('steps: ', steps-1)
     return ''.join(path)
 
 
