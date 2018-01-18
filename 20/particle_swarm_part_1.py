@@ -49,18 +49,6 @@ def update(particle):
 def tick(particles):
     return [update(particle) for particle in particles]
 
-def is_divering(particle):
-    i, position, velocity, acceleration = particle
-
-    px, py, pz = position
-    vx, vy, vz = velocity
-    ax, ay, az = acceleration
-
-    return vx * ax > 0 and vy * ay >= 0 and vz * az >= 0
-
-def diverging(particles):
-    return [particle for particle in particles if is_divering(particle)]
-
 def simulate(particles, n=1000):
     nticks = 0
 
@@ -86,9 +74,6 @@ def main():
     with open('input.txt', 'r') as particles_input:
         particles = read(particles_input)
         print('Answer: ', closest(simulate(particles, n=1000))[0])
-
-
-
 
 if __name__ == '__main__':
     main()
