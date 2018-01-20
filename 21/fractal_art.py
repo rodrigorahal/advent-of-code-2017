@@ -69,6 +69,11 @@ def main():
         rules = read_rules(rules_input)
         grid = run_enhance(rules, n=5)
         print('Answer: ', count_pixels(grid))
-    
+
+    with open('input.txt', 'r') as rules_input:
+        rules = read_rules(rules_input)
+        grid = run_enhance(rules, n=18)
+        print('Answer: ', count_pixels(grid))
+
 if __name__ == '__main__':
     main()
